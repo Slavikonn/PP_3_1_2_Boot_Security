@@ -3,8 +3,14 @@ package ru.kata.spring.boot_security.demo.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import ru.kata.spring.boot_security.demo.entities.User;
 import ru.kata.spring.boot_security.demo.services.AdminService;
+
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
@@ -19,5 +25,19 @@ public class AdminController {
     public String getAllUsers(Model model) {
         model.addAttribute("users", adminService.getAllUsers());
         return "admin-page";
+    }
+
+    @GetMapping("/createUser")
+    public String createUser(Model model) {
+        model.addAttribute("user", new User());
+        return "add-user-page";
+    }
+
+    @PostMapping("/addUser")
+    public String addUser(@ModelAttribute User user,
+                          @RequestParam(name = "role",
+                                  defaultValue = "ROLE_USER") Set<String> roles) {
+        adminService.addUser(user, adminService.getRolesByName(roles));
+        return "redirect:/admin";
     }
 }
