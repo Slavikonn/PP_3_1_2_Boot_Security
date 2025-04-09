@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add User Page</title>
+    <style>
+        form {
+            width: 365px;
+            padding: 6px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+<!--Форма добавления нового пользователя-->
+<form action="/admin/addUser" method="post">
+    <label for="username">Имя:</label><br>
+    <input type="text" id="username" name="username" required
+           style="padding: 4px 10px;height: 12px; width: 320px;">
+    <br><br>
+    <label for="surname">Фамилия:</label><br>
+    <input type="text" id="surname" name="surname" required
+           style="padding: 4px 10px;height: 12px; width: 320px;">
+    <br><br>
+    <label for="age">Возраст:</label><br>
+    <input type="number" id="age" name="age" required
+           style="padding: 4px 10px;height: 12px; width: 320px;">
+    <br><br>
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required
+           style="padding: 4px 10px;height: 12px; width: 320px;">
+    <br><br><br>
+    <label>Доступ:</label>
+    <input type="checkbox" id="user" name="role" value="ROLE_USER">
+    <label for="user">User</label>
+    <input type="checkbox" id="admin" name="role" value="ROLE_ADMIN">
+    <label for="admin">Admin</label>
+    <br><br>
+    <label for="password">Пароль:</label><br>
+    <input type="text" id="password" name="password" required
+           style="padding: 4px 10px;height: 12px; width: 320px;">
+    <br><br><br>
+    <!--Кнопка возврата на предыдущую страницу-->
+    <button type="button" onclick="window.history.back();"
+            style="font-size: 12px; height: 28px;margin-right: 10px">Назад
+    </button>
+    <!--Кнопка отправки формы для добавления пользователя-->
+    <input type="submit" value="Добавить"
+           style="font-size: 12px; height: 28px; width: auto;"/>
+</form>
+</body>
+</html>
