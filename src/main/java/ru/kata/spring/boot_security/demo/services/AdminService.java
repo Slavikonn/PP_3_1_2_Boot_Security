@@ -9,7 +9,11 @@ import java.util.Set;
 public interface AdminService {
     List<User> getAllUsers();
 
+    User findById(Long id);
+
     void addUser(User user, Set<Role> roles);
+
+    void updateUser(User user, Set<Role> roles);
 
     Set<Role> getRolesByName(Set<String> roles);
 }

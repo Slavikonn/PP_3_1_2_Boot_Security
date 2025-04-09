@@ -40,4 +40,18 @@ public class AdminController {
         adminService.addUser(user, adminService.getRolesByName(roles));
         return "redirect:/admin";
     }
+
+    @GetMapping("/editUser")
+    public String editUser(@RequestParam("id") Long id, Model model) {
+        model.addAttribute("user", adminService.findById(id));
+        return "edit-user-page";
+    }
+
+    @PostMapping("/updateUser")
+    public String updateUser(@ModelAttribute User user,
+                             @RequestParam(name = "role",
+                                     defaultValue = "ROLE_USER") Set<String> roles) {
+        adminService.updateUser(user, adminService.getRolesByName(roles));
+        return "redirect:/admin";
+    }
 }
