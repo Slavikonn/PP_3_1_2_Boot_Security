@@ -15,5 +15,7 @@ public interface AdminService {
 
     void updateUser(User user, Set<Role> roles);
 
+    void deleteUser(Long id);
+
     Set<Role> getRolesByName(Set<String> roles);
 }

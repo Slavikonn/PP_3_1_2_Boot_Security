@@ -54,4 +54,10 @@ public class AdminController {
         adminService.updateUser(user, adminService.getRolesByName(roles));
         return "redirect:/admin";
     }
+
+    @PostMapping("/deleteUser")
+    public String deleteUser(@RequestParam("id") Long id) {
+        adminService.deleteUser(id);
+        return "redirect:/admin";
+    }
 }

@@ -54,6 +54,12 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    @Transactional
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
     public Set<Role> getRolesByName(Set<String> roles) {
         return new HashSet<>(roleRepository.findByRoleNameIn(roles));
     }
