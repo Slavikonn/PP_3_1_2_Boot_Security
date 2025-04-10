@@ -10,6 +10,7 @@ import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 @Service
@@ -34,7 +35,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public User findById(Long id) {
-        return userRepository.findById(id).orElseThrow();
+        return userRepository.findById(id).orElseThrow(() ->
+                new NoSuchElementException("Пользователь с id " + id + " не найден"));
     }
 
     @Override
@@ -48,7 +50,9 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public void updateUser(User user, Set<Role> roles) {
-        User existingUser = userRepository.findById(user.getId()).orElseThrow();
+        User existingUser = userRepository.findById(user.getId()).orElseThrow(() ->
+                new NoSuchElementException("Пользователь с id " + user.getId() + " не найден"));
+
         existingUser.setUsername(user.getUsername());
         existingUser.setSurname(user.getSurname());
         existingUser.setAge(user.getAge());
@@ -64,6 +68,9 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public void deleteUser(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new NoSuchElementException("Пользователь с id " + id + " не найден");
+        }
         userRepository.deleteById(id);
     }
 
