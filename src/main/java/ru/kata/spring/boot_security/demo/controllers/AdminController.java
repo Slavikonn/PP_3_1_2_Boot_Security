@@ -22,13 +22,13 @@ public class AdminController {
     }
 
     @GetMapping
-    public String getAllUsers(Model model) {
+    public String showAdminPage(Model model) {
         model.addAttribute("users", adminService.getAllUsers());
         return "admin-page";
     }
 
     @GetMapping("/createUser")
-    public String createUser(Model model) {
+    public String showCreateUserForm(Model model) {
         model.addAttribute("user", new User());
         return "add-user-page";
     }
@@ -42,7 +42,7 @@ public class AdminController {
     }
 
     @GetMapping("/editUser")
-    public String editUser(@RequestParam("id") Long id, Model model) {
+    public String showEditUserForm(@RequestParam("id") Long id, Model model) {
         model.addAttribute("user", adminService.findById(id));
         return "edit-user-page";
     }

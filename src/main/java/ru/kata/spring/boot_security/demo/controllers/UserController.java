@@ -19,7 +19,7 @@ public class UserController {
     }
 
     @GetMapping
-    public String getUser(Principal principal, Model model) {
+    public String showUserPage(Principal principal, Model model) {
         User currentUser = userService.getUserByName(principal.getName());
         model.addAttribute("user", currentUser);
         return "user-page";
