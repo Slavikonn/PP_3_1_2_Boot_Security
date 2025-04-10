@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.services;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.entities.Role;
@@ -16,10 +17,14 @@ import java.util.Set;
 public class AdminServiceImpl implements AdminService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AdminServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+    public AdminServiceImpl(UserRepository userRepository,
+                            RoleRepository roleRepository,
+                            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -36,6 +41,7 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     public void addUser(User user, Set<Role> roles) {
         user.setRoles(roles);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
@@ -44,12 +50,14 @@ public class AdminServiceImpl implements AdminService {
     public void updateUser(User user, Set<Role> roles) {
         User existingUser = userRepository.findById(user.getId()).orElseThrow();
         existingUser.setUsername(user.getUsername());
-        existingUser.setPassword(user.getPassword());
         existingUser.setSurname(user.getSurname());
         existingUser.setAge(user.getAge());
         existingUser.setEmail(user.getEmail());
         existingUser.setRoles(roles);
 
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         userRepository.save(existingUser);
     }
 
