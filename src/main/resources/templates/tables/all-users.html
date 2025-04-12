@@ -37,6 +37,7 @@
             <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
                     th:data-bs-target="${'#deleteUser' + user.id}">Delete
             </button>
+            <div th:replace="~{modals/delete-user}"></div>
         </td>
     </tr>
     </tbody>
