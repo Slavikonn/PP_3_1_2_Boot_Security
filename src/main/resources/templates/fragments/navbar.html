@@ -1,0 +1,11 @@
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark py-1">
+    <div class="container-fluid">
+        <span class="navbar-text text-white fs-5">
+            <strong th:text="${user.email}"></strong> with roles:
+            <span th:each="role : ${user.roles}">
+                <span th:text="${#strings.replace(role.roleName, 'ROLE_', '')}"></span>
+            </span>
+        </span>
+        <a class="nav-link text-white-50" href="/logout">Logout</a>
+    </div>
+</nav>

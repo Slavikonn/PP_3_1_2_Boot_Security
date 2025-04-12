@@ -15,11 +15,19 @@
     </style>
 </head>
 <body>
+<!--Навигационная панель-->
+<div th:replace="~{fragments/navbar}"></div>
+
+<!--Основной контейнер-->
 <div class="container-fluid">
     <div class="row vh-100">
+
+        <!--Левая боковая панель-->
         <div class="col-2 bg-white text-black p-1 pt-4">
             <a class="btn btn-primary btn-toolbar" href="#" role="button">User</a>
         </div>
+
+        <!--Правая основная панель-->
         <div class="col-10 bg-light p-4">
             <h1>User information-page</h1>
             <div class="card">
