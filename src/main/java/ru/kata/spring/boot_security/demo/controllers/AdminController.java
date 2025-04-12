@@ -41,12 +41,6 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/editUser")
-    public String showEditUserForm(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("user", adminService.findById(id));
-        return "edit-user-page";
-    }
-
     @PostMapping("/updateUser")
     public String updateUser(@ModelAttribute User user,
                              @RequestParam(name = "role",

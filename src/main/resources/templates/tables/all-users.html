@@ -30,6 +30,7 @@
             <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal"
                     th:data-bs-target="${'#editUser' + user.id}">Edit
             </button>
+            <div th:replace="~{modals/edit-user}"></div>
         </td>
         <td>
             <!--Кнопка удаления пользователя-->
