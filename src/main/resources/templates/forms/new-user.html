@@ -1,0 +1,31 @@
+<form th:action="@{admin/addUser}" th:method="post"
+      class="d-flex flex-column align-items-center">
+    <div class="mb-3 text-center w-25">
+        <label for="username" class="form-label fw-bold">First name</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="First name" required>
+    </div>
+    <div class="mb-3 text-center w-25">
+        <label for="surname" class="form-label fw-bold">Last name</label>
+        <input type="text" id="surname" name="surname" class="form-control" placeholder="Last name" required>
+    </div>
+    <div class="mb-3 text-center w-25">
+        <label for="age" class="form-label fw-bold">Age</label>
+        <input type="number" id="age" name="age" class="form-control" placeholder="Age" required>
+    </div>
+    <div class="mb-3 text-center w-25">
+        <label for="email" class="form-label fw-bold">Email</label>
+        <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+    </div>
+    <div class="mb-3 text-center w-25">
+        <label for="password" class="form-label fw-bold">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+    </div>
+    <div class="mb-3 text-center w-25">
+        <label for="role" class="form-label fw-bold">Role</label>
+        <select id="role" name="role" class="form-select" multiple size="2">
+            <option value="ROLE_ADMIN">ADMIN</option>
+            <option value="ROLE_USER">USER</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success">Add new user</button>
+</form>

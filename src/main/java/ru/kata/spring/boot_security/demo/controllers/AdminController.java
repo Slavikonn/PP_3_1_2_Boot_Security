@@ -33,12 +33,6 @@ public class AdminController {
         return "pages/admin-page";
     }
 
-    @GetMapping("/createUser")
-    public String showCreateUserForm(Model model) {
-        model.addAttribute("user", new User());
-        return "add-user-page";
-    }
-
     @PostMapping("/addUser")
     public String addUser(@ModelAttribute User user,
                           @RequestParam(name = "role",
