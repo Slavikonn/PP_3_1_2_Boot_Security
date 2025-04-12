@@ -22,6 +22,6 @@ public class UserController {
     public String showUserPage(Principal principal, Model model) {
         User currentUser = userService.getUserByName(principal.getName());
         model.addAttribute("user", currentUser);
-        return "user-page";
+        return "pages/user-page";
     }
 }
