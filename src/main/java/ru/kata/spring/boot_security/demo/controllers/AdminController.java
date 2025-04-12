@@ -9,22 +9,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.kata.spring.boot_security.demo.entities.User;
 import ru.kata.spring.boot_security.demo.services.AdminService;
+import ru.kata.spring.boot_security.demo.services.UserService;
 
+import java.security.Principal;
 import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+    private final UserService userService;
     private final AdminService adminService;
 
-    public AdminController(AdminService adminService) {
+    public AdminController(UserService userService,
+                           AdminService adminService) {
+        this.userService = userService;
         this.adminService = adminService;
     }
 
     @GetMapping
-    public String showAdminPage(Model model) {
+    public String showAdminPage(Principal principal, Model model) {
+        model.addAttribute("user", userService.getUserByName(principal.getName()));
         model.addAttribute("users", adminService.getAllUsers());
-        return "admin-page";
+        return "pages/admin-page";
     }
 
     @GetMapping("/createUser")
