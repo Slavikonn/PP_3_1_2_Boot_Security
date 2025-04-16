@@ -1,36 +1,36 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.kata.spring.boot_security.demo.dto.UserDto;
 import ru.kata.spring.boot_security.demo.entities.User;
 import ru.kata.spring.boot_security.demo.services.AdminService;
-import ru.kata.spring.boot_security.demo.services.UserService;
+import ru.kata.spring.boot_security.demo.utils.UserMapper;
 
-import java.security.Principal;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 public class AdminController {
-    private final UserService userService;
     private final AdminService adminService;
 
-    public AdminController(UserService userService,
-                           AdminService adminService) {
-        this.userService = userService;
+    public AdminController(AdminService adminService) {
         this.adminService = adminService;
     }
 
-    @GetMapping
-    public String showAdminPage(Principal principal, Model model) {
-        model.addAttribute("user", userService.getUserByName(principal.getName()));
-        model.addAttribute("users", adminService.getAllUsers());
-        return "pages/admin-page";
+    @GetMapping("/users")
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        List<UserDto> userDtos = adminService.getAllUsers()
+                .stream().map(UserMapper::toDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(userDtos);
     }
 
     @PostMapping("/addUser")
