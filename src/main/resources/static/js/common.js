@@ -44,7 +44,7 @@ function loadUsers() {
                     <td>${user.age}</td>
                     <td>${user.email}</td>
                     <td>${user.roles.map(r => r.replace("ROLE_", "")).join(", ")}</td>
-                    <td><button class="btn btn-info btn-sm" onclick="...">Edit</button></td>
+                    <td><button class="btn btn-info btn-sm" onclick="openEditModal(${user.id})">Edit</button></td>
                     <td><button class="btn btn-danger btn-sm" onclick="...">Delete</button></td>
                 `;
                 tbody.appendChild(row);
@@ -91,3 +91,65 @@ function loadNewUser() {
             });
     });
 }
+
+function openEditModal(id) {
+    fetch(`/api/admin/users/${id}`)
+        .then(res => res.json())
+        .then(user => {
+            document.getElementById("edit-id-hidden").value = user.id;
+            document.getElementById("edit-id-disabled").value = user.id;
+            document.getElementById("edit-username").value = user.username;
+            document.getElementById("edit-surname").value = user.surname;
+            document.getElementById("edit-age").value = user.age;
+            document.getElementById("edit-email").value = user.email;
+            document.getElementById("edit-password").value = "";
+
+            const roleSelect = document.getElementById("edit-roles");
+            Array.from(roleSelect.options).forEach(opt => {
+                opt.selected = user.roles.includes(opt.value);
+            });
+
+            const modal = new bootstrap.Modal(document.getElementById("editUserModal"));
+            modal.show();
+        });
+}
+
+document.addEventListener("submit", function (event) {
+    const form = event.target;
+
+    if (form && form.id === "editUserForm") {
+        event.preventDefault();
+
+        const id = document.getElementById("edit-id-hidden").value;
+        const user = {
+            id: parseInt(id),
+            username: document.getElementById("edit-username").value,
+            surname: document.getElementById("edit-surname").value,
+            age: parseInt(document.getElementById("edit-age").value),
+            email: document.getElementById("edit-email").value,
+            password: document.getElementById("edit-password").value,
+            roles: Array.from(document.getElementById("edit-roles").selectedOptions).map(opt => opt.value)
+        };
+
+        fetch(`/api/admin/users/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user)
+        })
+            .then(res => {
+                if (!res.ok) throw new Error("Ошибка при обновлении пользователя");
+                return res.json();
+            })
+            .then(() => {
+                loadUsers();
+                const modal = bootstrap.Modal.getInstance(document.getElementById("editUserModal"));
+                modal.hide();
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Ошибка при обновлении пользователя");
+            });
+    }
+});

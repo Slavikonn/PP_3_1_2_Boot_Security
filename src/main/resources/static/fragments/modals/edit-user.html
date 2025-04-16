@@ -1,0 +1,51 @@
+<div id="editUserModal" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Edit user</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editUserForm">
+                <div class="modal-body d-flex flex-column align-items-center">
+                    <div class="mb-3 text-center w-50">
+                        <label class="form-label fw-bold">ID</label>
+                        <input type="text" class="form-control" id="edit-id-disabled" disabled>
+                        <input type="hidden" id="edit-id-hidden">
+                    </div>
+                    <div class="mb-3 text-center w-50">
+                        <label class="form-label fw-bold">First name</label>
+                        <input type="text" id="edit-username" class="form-control">
+                    </div>
+                    <div class="mb-3 text-center w-50">
+                        <label class="form-label fw-bold">Last name</label>
+                        <input type="text" id="edit-surname" class="form-control">
+                    </div>
+                    <div class="mb-3 text-center w-50">
+                        <label class="form-label fw-bold">Age</label>
+                        <input type="number" id="edit-age" class="form-control">
+                    </div>
+                    <div class="mb-3 text-center w-50">
+                        <label class="form-label fw-bold">Email</label>
+                        <input type="email" id="edit-email" class="form-control">
+                    </div>
+                    <div class="mb-3 text-center w-50">
+                        <label class="form-label fw-bold">Password</label>
+                        <input type="password" id="edit-password" class="form-control">
+                    </div>
+                    <div class="mb-3 text-center w-50">
+                        <label class="form-label fw-bold">Role</label>
+                        <select id="edit-roles" class="form-select" multiple size="2">
+                            <option value="ROLE_ADMIN">ADMIN</option>
+                            <option value="ROLE_USER">USER</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

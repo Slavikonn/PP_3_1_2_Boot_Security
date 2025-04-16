@@ -3,8 +3,9 @@ package ru.kata.spring.boot_security.demo.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +37,13 @@ public class AdminRestController {
         return ResponseEntity.ok(userDtos);
     }
 
+    @GetMapping("/users/{id}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+        User user = adminService.findById(id);
+        return ResponseEntity.ok(UserMapper.toDto(user));
+    }
+
+
     @PostMapping("/users")
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
         Set<String> roleNames = userDto.getRoles();
@@ -48,12 +56,14 @@ public class AdminRestController {
         return new ResponseEntity<>(UserMapper.toDto(user), HttpStatus.CREATED);
     }
 
-    @PostMapping("/updateUser")
-    public String updateUser(@ModelAttribute User user,
-                             @RequestParam(name = "role",
-                                     defaultValue = "ROLE_USER") Set<String> roles) {
-        adminService.updateUser(user, adminService.getRolesByName(roles));
-        return "redirect:/admin";
+    @PutMapping("/users/{id}")
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id,
+                                              @RequestBody UserDto userDto) {
+        userDto.setId(id);
+        User user = UserMapper.toEntity(userDto);
+        Set<Role> roles = adminService.getRolesByName(userDto.getRoles());
+        adminService.updateUser(user, roles);
+        return ResponseEntity.ok(UserMapper.toDto(user));
     }
 
     @PostMapping("/deleteUser")
