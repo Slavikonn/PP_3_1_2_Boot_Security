@@ -18,11 +18,11 @@ public class SuccessUserHandler implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException {
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
         if (roles.contains("ROLE_ADMIN")) {
-            httpServletResponse.sendRedirect("/admin");
+            httpServletResponse.sendRedirect("/pages/admin-page.html");
         } else if (roles.contains("ROLE_USER")) {
-            httpServletResponse.sendRedirect("/user");
+            httpServletResponse.sendRedirect("/pages/user-page.html");
         } else {
-            httpServletResponse.sendRedirect("/login");
+            httpServletResponse.sendRedirect("/login-page.html");
         }
     }
 }

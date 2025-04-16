@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -27,15 +26,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/", "/login").permitAll()
+                .antMatchers("/js/**", "/css/**", "/img/**", "/fragments/**").permitAll()
+                .antMatchers("/pages/admin-page.html", "/api/admin/**").hasRole("ADMIN")
+                .antMatchers("/pages/user-page.html", "/api/user").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login")
+                .formLogin()
+                .loginPage("/login-page.html")
+                .loginProcessingUrl("/login")
                 .successHandler(successUserHandler).permitAll()
                 .and()
-                .logout().logoutSuccessUrl("/login").permitAll();
+                .logout().logoutSuccessUrl("/").permitAll();
     }
 
     @Bean
