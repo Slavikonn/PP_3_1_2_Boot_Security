@@ -51,3 +51,43 @@ function loadUsers() {
             });
         });
 }
+
+function loadNewUser() {
+    const form = document.getElementById("newUserForm");
+    if (!form) return;
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const selectedRoles = Array.from(form.role.selectedOptions).map(opt => opt.value);
+
+        const user = {
+            username: form.username.value,
+            surname: form.surname.value,
+            age: parseInt(form.age.value),
+            email: form.email.value,
+            password: form.password.value,
+            roles: selectedRoles
+        };
+
+        fetch("/api/admin/users", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user)
+        })
+            .then(res => {
+                if (!res.ok)
+                    return res.json();
+            })
+            .then(data => {
+                form.reset();
+                document.querySelector('button[data-bs-target="#allUsers"]')?.click();
+                if (typeof loadUsers === "function") loadUsers();
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    });
+}
