@@ -13,4 +13,5 @@ document.addEventListener("DOMContentLoaded", () => {
     loadFragment("all-users", "/fragments/tables/all-users.html", loadUsers);
     loadFragment("new-user", "/fragments/forms/new-user.html", loadNewUser);
     loadFragment("edit-user-modal", "/fragments/modals/edit-user.html");
+    loadFragment("delete-user-modal", "/fragments/modals/delete-user.html");
 });

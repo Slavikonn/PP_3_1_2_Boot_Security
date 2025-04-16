@@ -45,7 +45,7 @@ function loadUsers() {
                     <td>${user.email}</td>
                     <td>${user.roles.map(r => r.replace("ROLE_", "")).join(", ")}</td>
                     <td><button class="btn btn-info btn-sm" onclick="openEditModal(${user.id})">Edit</button></td>
-                    <td><button class="btn btn-danger btn-sm" onclick="...">Delete</button></td>
+                    <td><button class="btn btn-danger btn-sm" onclick="openDeleteModal(${user.id})">Delete</button></td>
                 `;
                 tbody.appendChild(row);
             });
@@ -150,6 +150,48 @@ document.addEventListener("submit", function (event) {
             .catch(err => {
                 console.error(err);
                 alert("Ошибка при обновлении пользователя");
+            });
+    }
+});
+
+function openDeleteModal(id) {
+    fetch(`/api/admin/users/${id}`)
+        .then(res => res.json())
+        .then(user => {
+            document.getElementById("delete-id-hidden").value = user.id;
+            document.getElementById("delete-id-disabled").value = user.id;
+            document.getElementById("delete-username").value = user.username;
+            document.getElementById("delete-surname").value = user.surname;
+            document.getElementById("delete-age").value = user.age;
+            document.getElementById("delete-email").value = user.email;
+
+            const modal = new bootstrap.Modal(document.getElementById("deleteUserModal"));
+            modal.show();
+        })
+}
+
+document.addEventListener("submit", function (event) {
+    const form = event.target;
+
+    if (form && form.id === "deleteUserForm") {
+        event.preventDefault();
+
+        const id = document.getElementById("delete-id-hidden").value;
+        fetch(`/api/admin/users/${id}`, {
+            method: "DELETE",
+        })
+            .then(res => {
+                if (!res.ok) throw new Error("Ошибка при удалении пользователя");
+                res.json();
+            })
+            .then(() => {
+                loadUsers();
+                const modal = bootstrap.Modal.getInstance(document.getElementById("deleteUserModal"));
+                modal.hide();
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Ошибка при удалении пользователя");
             });
     }
 });
